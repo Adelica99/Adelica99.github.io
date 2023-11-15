@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/@splidejs/splide/dist/js/splide.esm.js":
@@ -7,7 +8,6 @@
   \*************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   CLASSES: () => (/* binding */ CLASSES),
@@ -3773,7 +3773,6 @@ var SplideRenderer = /*#__PURE__*/function () {
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3827,7 +3826,6 @@ const bot = () => {
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3860,9 +3858,82 @@ const burger = () => {
 /*!**************************************!*\
   !*** ./src/js/modules/novaPoshta.js ***!
   \**************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const novaPoshta = () => {
+  const getBodyRequest = (marker, value) => {
+    switch (marker) {
+      case 'city':
+        return {
+          apiKey: "732428d3fbb9b42deb3d8dc46b4341e2",
+          modelName: "Address",
+          calledMethod: "searchSettlements",
+          methodProperties: {
+            CityName: value,
+            Limit: "100",
+            Page: "1"
+          }
+        };
+      case 'warehouse':
+        return {
+          apiKey: "732428d3fbb9b42deb3d8dc46b4341e2",
+          modelName: "Address",
+          calledMethod: "getWarehouses",
+          methodProperties: {
+            CityRef: value
+          }
+        };
+      default:
+        break;
+    }
+  };
+  const request = async (marker, value) => {
+    try {
+      const response = await fetch('https://api.novaposhta.ua/v2.0/json/', {
+        method: 'POST',
+        body: JSON.stringify(getBodyRequest(marker, value)),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`Could not fetch, status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      throw e;
+    }
+  };
+  const _transformCities = city => {
+    return {
+      city: city.Present,
+      cityRef: city.DeliveryCity
+    };
+  };
+  const _transformWarehouses = warehouses => {
+    return {
+      warehouses: warehouses.Description
+    };
+  };
+  const getCities = async (marker, city) => {
+    const res = await request(marker, city);
+    return res.data[0].Addresses.map(_transformCities);
+  };
+  const getWarehouses = async (marker, cityRef) => {
+    const res = await request(marker, cityRef);
+    return res.data.map(_transformWarehouses);
+  };
+  return {
+    getCities,
+    getWarehouses
+  };
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (novaPoshta);
 
 /***/ }),
 
@@ -3872,7 +3943,6 @@ const burger = () => {
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3962,18 +4032,6 @@ const slider = () => {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -4004,9 +4062,8 @@ const slider = () => {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-"use strict";
 /*!**************************!*\
   !*** ./src/js/script.js ***!
   \**************************/
@@ -4016,7 +4073,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
 /* harmony import */ var _modules_bot__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/bot */ "./src/js/modules/bot.js");
 /* harmony import */ var _modules_novaPoshta__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/novaPoshta */ "./src/js/modules/novaPoshta.js");
-/* harmony import */ var _modules_novaPoshta__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_modules_novaPoshta__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
@@ -4029,7 +4085,7 @@ window.addEventListener('DOMContentLoaded', function () {
   }).mount();
   (0,_modules_slider__WEBPACK_IMPORTED_MODULE_1__["default"])();
   (0,_modules_bot__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  _modules_novaPoshta__WEBPACK_IMPORTED_MODULE_4___default()();
+  // novaPoshta();
 });
 })();
 
