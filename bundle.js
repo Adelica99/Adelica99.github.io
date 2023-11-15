@@ -3779,7 +3779,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const bot = () => {
   const telegramBotToken = '6467389088:AAFn5bIhI5cFlhT6T8nFPxL_-fdTSeZEBrU';
-  const chatId = '662831789';
+  const chatId = '651170918';
   const form = document.getElementById('orderForm');
   const apiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
   form.addEventListener('submit', e => {
